@@ -28,20 +28,20 @@ set(PICO_BOARD pico2_w CACHE STRING "Board type")
 # Pull in Raspberry Pi Pico SDK (must be before project)
 include(pico_sdk_import.cmake)
 
-project(pico_i2c_eeprom C CXX ASM)
+project(24lc32_i2c C CXX ASM)
 
 # Initialise the Raspberry Pi Pico SDK
 pico_sdk_init()
 
 # Add libary
-add_library(pico_i2c_eeprom_lib INTERFACE)
-target_sources(pico_i2c_eeprom_lib INTERFACE
-        ${CMAKE_CURRENT_LIST_DIR}/pico_i2c_eeprom_lib.c
+add_library(24lc32_i2c_lib INTERFACE)
+target_sources(24lc32_i2c_lib INTERFACE
+        ${CMAKE_CURRENT_LIST_DIR}/24lc32_i2c_lib.c
         )
-target_include_directories(pico_i2c_eeprom_lib INTERFACE
+target_include_directories(24lc32_i2c_lib INTERFACE
         ${CMAKE_CURRENT_LIST_DIR}
         )
-target_link_libraries(pico_i2c_eeprom_lib INTERFACE
+target_link_libraries(24lc32_i2c_lib INTERFACE
         pico_stdlib
         hardware_i2c
         )
@@ -49,27 +49,27 @@ target_link_libraries(pico_i2c_eeprom_lib INTERFACE
 
 
 # Add executable. Default name is the project name, version 0.1
-add_executable(pico_i2c_eeprom 
+add_executable(24lc32_i2c 
         example.c 
         )
 
-pico_set_program_name(pico_i2c_eeprom "pico_i2c_eeprom")
-pico_set_program_version(pico_i2c_eeprom "0.1")
+pico_set_program_name(24lc32_i2c "24lc32_i2c")
+pico_set_program_version(24lc32_i2c "0.1")
 
 # Modify the below lines to enable/disable output over UART/USB
-pico_enable_stdio_uart(pico_i2c_eeprom 1)
-pico_enable_stdio_usb(pico_i2c_eeprom 1)
+pico_enable_stdio_uart(24lc32_i2c 1)
+pico_enable_stdio_usb(24lc32_i2c 1)
 
 # Add the standard library to the build
-target_link_libraries(pico_i2c_eeprom
-        pico_i2c_eeprom_lib
+target_link_libraries(24lc32_i2c
+        24lc32_i2c_lib
         pico_stdlib
         hardware_i2c
         )
 
 # Add the standard include files to the build
-target_include_directories(pico_i2c_eeprom PRIVATE
+target_include_directories(24lc32_i2c PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}
         )
 
-pico_add_extra_outputs(pico_i2c_eeprom)
+pico_add_extra_outputs(24lc32_i2c)

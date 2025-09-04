@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "pico/stdlib.h"
 #include "hardware/i2c.h"
-#include "pico_i2c_eeprom_lib.h"
+#include "24lc32_i2c_lib.h"
 
 // Default I2C address of 24LC32
 #define I2C_ADDRESS 0x50
@@ -26,6 +26,13 @@ int main() {
     read_eeprom(0x0, result, 32, I2C_ADDRESS);
 
     for (int i = 0; i < 32; i++) {
-        printf("result: %i\n", result[i]);
+        printf("read: %i, expected: %i\n", result[i]), i;
+        if (result[i] != i) {
+            printf("Unexpected read!\n");
+            return 1;
+        }
     }
+    
+    printf("Test passed!\n");
+    return 0;
 }

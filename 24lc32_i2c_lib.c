@@ -7,7 +7,7 @@
 
 // Acknowledge polling can be used to see when a write cycle is complete
 // Wait for the i2c slave to achnowledge our empty write
-int ack_poll(uint8_t i2c_addr) {
+bool ack_poll(uint8_t i2c_addr) {
     int timeout = 100;
     for (int i = 0; i < timeout; i++) {
         if (i2c_write_blocking(i2c_default, i2c_addr, NULL, 1, false) == 1) {
@@ -49,7 +49,7 @@ void byte_write_eeprom(uint16_t address, uint8_t data, uint8_t i2c_addr) {
 
 // Write a block of data to eeprom 
 // Returns false if invalid data size passed in
-int page_write_eeprom(uint16_t address, uint8_t *data, uint8_t num, uint8_t i2c_addr) {
+bool page_write_eeprom(uint16_t address, uint8_t *data, uint8_t num, uint8_t i2c_addr) {
     if (num > MAX_PAGE_WRITE) {
         printf("Tried to write more than 32 bytes.\n");
         return false;
@@ -74,7 +74,7 @@ int page_write_eeprom(uint16_t address, uint8_t *data, uint8_t num, uint8_t i2c_
 }
 
 // Initialise i2c for given gpio at given frequency
-int eeprom_init(int sda_pin, int scl_pin, int freq, i2c_inst_t *i2c_instance) {
+void eeprom_init(int sda_pin, int scl_pin, int freq, i2c_inst_t *i2c_instance) {
     i2c_init(i2c_default, freq);
     
     gpio_set_function(sda_pin, GPIO_FUNC_I2C);
