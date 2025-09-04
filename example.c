@@ -8,19 +8,20 @@
 
 int main() {
     stdio_init_all();
-    
+
     eeprom_init(PICO_DEFAULT_I2C_SDA_PIN, PICO_DEFAULT_I2C_SCL_PIN, 400*1000, i2c_default);
 
-    // as a test, lets write a single byte then fill the page and read the result
-    byte_write_eeprom(0x00, 19, I2C_ADDRESS);
+    // Write the byte at location 0x00 to 0
+    byte_write_eeprom(0x00, 0, I2C_ADDRESS);
 
+    // Make an array of integers from 1 to 31 and write the array to eeprom starting at 0x01
     uint8_t data_list[31];
     for (int i = 0; i < 31; i++) {
-        data_list[i] = 32;
+        data_list[i] = i + 1;
     }
-
     page_write_eeprom(0x01, data_list, 31, I2C_ADDRESS);
 
+    // Read eeprom, and ensure we observe ascending integers from 0 to 31
     uint8_t result[32];
     read_eeprom(0x0, result, 32, I2C_ADDRESS);
 
